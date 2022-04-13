@@ -1,8 +1,16 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  body{
-    overflow-x: hidden;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  overflow-x: hidden;
+  font-size: 88%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #d3d3d3;
+}
+button,
+input {
+  outline: none;
+}

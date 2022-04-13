@@ -1,25 +1,15 @@
 <template>
-  <h1>{{ header }}</h1>
-  <Modal />
+  <Form />
 </template>
+
 <script>
-import Modal from "./components/Modal.vue";
+import Form from "./components/Form.vue";
 export default {
   data() {
-    return {
-      header: "This is our header ",
-    };
+    return {};
   },
-  methods: {},
-  components: {
-    Modal,
-  },
+  components: { Form },
 };
 </script>
-<style>
 
-
-h1 {
-  font-size: 40px;
-}
-</style>
+<style></style>
