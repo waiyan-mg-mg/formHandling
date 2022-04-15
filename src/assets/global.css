@@ -3,12 +3,14 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
+  position: relative;
   overflow-x: hidden;
   font-size: 88%;
   max-width: 1200px;
   margin: 0 auto;
-  background-color: #d3d3d3;
+  background-color: #ececec;
 }
 button,
 input {

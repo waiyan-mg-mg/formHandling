@@ -1,16 +1,20 @@
 <template>
-  <h1>{{ email }}</h1>
-  <h1>{{ password }}</h1>
-  <h1>{{ role }}</h1>
-  <form>
+  <div v-if="displayPopUp">
+    <PopUp />
+  </div>
+  <form @submit.prevent="submit">
     <div class="email">
       <label for="email">Email</label>
       <input type="text" id="email" v-model="email" />
     </div>
+    <p class="errorMsg" v-if="emailValid">Email must have @ and . sign</p>
     <div class="password">
-      <label for="password">password</label>
+      <label for="password">Password</label>
       <input type="password" id="password" v-model="password" />
     </div>
+    <p class="errorMsg" v-if="passwordValid">
+      Passwrod must be at least 8 charactors.
+    </p>
     <div class="role">
       <label for="password">Role :</label>
       <select v-model="role">
@@ -20,23 +24,125 @@
         <option value="content">Content Writer</option>
       </select>
     </div>
+    <div class="skills">
+      <label for="skills"
+        >Skills
+        <span
+          >'Press Enter to jump next skill and ^ to clear skills'</span
+        ></label
+      >
+      <input
+        type="text"
+        id="skills"
+        @focus="hideSkill"
+        @keyup="collectSkills"
+        @blur="showSkills"
+        v-model="skillCounter"
+      />
+    </div>
+    <div class="learned">
+      <label for="learned">I've also learned</label><br />
+      <input
+        type="checkbox"
+        id="computerScience"
+        value="computerScience"
+        v-model="learned"
+      /><label for="computerScience">Computer Science</label><br />
+      <input
+        type="checkbox"
+        id="accounting"
+        value="accounting"
+        v-model="learned"
+      /><label for="accounting">Accounting</label><br />
+      <input
+        type="checkbox"
+        id="cyberSecurity"
+        value="cyberSecurity"
+        v-model="learned"
+      /><label for="cyberSecurity">Cyber Security</label><br />
+    </div>
+    <br />
+    <hr />
+    <div class="privacy">
+      <input type="checkbox" id="terms" v-model="terms" />
+      <label for="terms">Accept terms and conditions</label>
+    </div>
+    <p class="errorMsg" v-if="termValid">
+      You must need to accept terms and conditions.
+    </p>
+    <div class="submit">
+      <button type="submit" @click="toggleSuccess">Next</button>
+    </div>
   </form>
 </template>
 
 <script>
+import PopUp from "./PopUp.vue";
+
 export default {
   name: "FormBox",
+  components: { PopUp },
   data() {
     return {
-      email: null,
-      password: null,
-      role: null,
+      email: "",
+      password: "",
+      role: "Owner",
+      terms: null,
+      learned: [],
+      skills: [],
+      skillCounter: "",
+      emailValid: false,
+      passwordValid: false,
+      termValid: false,
+      displayPopUp: false,
     };
   },
-  methods: {},
+  methods: {
+    collectSkills(e) {
+      if (e.key === "Enter") {
+        this.skills.push(this.skillCounter);
+        this.skillCounter = "";
+      } else if (e.key === "^") {
+        if (this.skills.length === 0) {
+          alert("nothing to clean");
+          this.skillCounter = "";
+        } else {
+          let confirm = window.confirm(
+            `Are you sure to clean "${this.skills}"`
+          );
+          if (confirm) {
+            this.skills = [];
+            this.skillCounter = "";
+          } else this.skillCounter = "";
+        }
+      }
+    },
+    showSkills() {
+      this.skillCounter = this.skills;
+    },
+    hideSkill() {
+      this.skillCounter = "";
+    },
+    submit() {
+      !this.terms ? (this.termValid = true) : (this.termValid = false); // for terms
+      !this.email.includes("@") || !this.email.includes(".")
+        ? (this.emailValid = true)
+        : (this.emailValid = false); // for email
+      this.password.length < 8
+        ? (this.passwordValid = true)
+        : (this.passwordValid = false); // for password
+    },
+    toggleSuccess() {
+      if (this.termValid && this.emailValid && this.passwordValid)
+        this.displayPopUp = true;
+    },
+  },
 };
 </script>
-<style>
+<style scoped>
+header {
+  text-align: center;
+}
 form {
   max-width: 500px;
   margin: 10vh auto;
@@ -44,6 +150,7 @@ form {
   border-radius: 10px;
   background: white;
   font-size: 1.4rem;
+  box-shadow: 1px 3px 10px rgb(168, 168, 168);
 }
 label {
   display: block;
@@ -63,21 +170,60 @@ button {
   padding-left: 2px;
 }
 select {
-  outline: 2px solid rgb(9, 255, 0);
+  outline: none;
+  background: rgb(97, 96, 96);
+  color: white;
+  border-radius: 5px;
 }
 input:focus {
   border-bottom: 2px solid rgb(9, 255, 0);
 }
-/* .email {
-  transition: all 300ms;
+div.skills input:focus {
+  border: 2px dashed gray;
+  padding: 20px;
+  font-size: 1.3rem;
 }
-.email:hover {
-  transform: translateY(-20px);
-  background: rgb(221, 221, 221);
+div.skills span {
+  font-size: 1rem;
+}
+.privacy {
+  padding-top: 30px;
+}
+input[type="checkbox"] {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: 0 10px 0 0;
+}
+label[for="terms"] {
+  display: inline;
+  margin: 0;
+}
+div.learned {
+  padding-top: 20px;
+}
+div.learned label {
+  display: inline;
+}
+div.submit {
+  text-align: center;
+  margin-top: 20px;
+}
+div.submit button {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  width: auto;
+  height: auto;
+  border-radius: 6px;
+  background: deepskyblue;
+  color: white;
   padding: 10px;
-  border-radius: 8px;
+  outline: none;
+  border: none;
+  cursor: pointer;
 }
-.email:hover input {
-  border-radius: 5px;
-} */
+p.errorMsg {
+  color: crimson;
+  font-size: 1.2rem;
+  font-style: italic;
+}
 </style>
