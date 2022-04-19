@@ -1,6 +1,6 @@
 <template>
-  <div class="popUp">
-    <div class="box">
+   <div class="overlay">
+      <div class="box">
       <div class="body">
         <p>Success <span style="color: lightgreen">✔</span></p>
       </div>
@@ -8,8 +8,7 @@
         <button @click="hideBox">OK</button>
       </div>
     </div>
-    <section class="overlay">&nbsp;</section>
-  </div>
+   </div>
 </template>
 
 <script>
@@ -18,33 +17,28 @@ export default {
   data() {
     return {};
   },
-  props: ["displayPopUp"],
+  props: [],
   methods: {
-    hideBox() {},
+    hideBox() {
+      this.$emit('closePopUp')
+    },
   },
 };
 </script>
 
 <style scoped>
-.popUp {
-  position: absolute;
-  left: 50%;
-  top: 40%;
-  transform: translate(-50%, -50%);
-}
-.overlay {
-  position: absolute;
-  top: -95px;
-  left: -600px;
-  width: 300vw;
-  height: 120vh;
-  background: rgba(156, 156, 156, 0.363);
-  z-index: -1;
+.overlay{
+    position: absolute;
+    width: 100vw;
+    margin-top: -190px;
+    height: 150%;
+    background-color: #8a2be28c;
+    padding-top:20%;
 }
 .box {
-  width: 400px;
+  max-width: 400px;
   height: 200px;
-  margin: 20vh auto;
+  margin: 0 auto;
   background: deepskyblue;
   padding: 30px;
   border-radius: 15px;

@@ -1,7 +1,7 @@
 <template>
-  <div v-if="displayPopUp">
-    <PopUp />
-  </div>
+   <div v-if="togglePopup">
+      <PopUp @closePopUp='closePopUp' /> 
+   </div>
   <form @submit.prevent="submit">
     <div class="email">
       <label for="email">Email</label>
@@ -87,14 +87,14 @@ export default {
       email: "",
       password: "",
       role: "Owner",
-      terms: null,
+      terms: '',
       learned: [],
       skills: [],
       skillCounter: "",
       emailValid: false,
       passwordValid: false,
       termValid: false,
-      displayPopUp: false,
+      togglePopup:false
     };
   },
   methods: {
@@ -132,10 +132,12 @@ export default {
         ? (this.passwordValid = true)
         : (this.passwordValid = false); // for password
     },
-    toggleSuccess() {
-      if (this.termValid && this.emailValid && this.passwordValid)
-        this.displayPopUp = true;
+    toggleSuccess() { 
+        this.togglePopup = true;
     },
+    closePopUp(){
+      this.togglePopup=false;
+    }
   },
 };
 </script>

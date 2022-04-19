@@ -5,13 +5,15 @@
 }
 
 body {
-  position: relative;
   overflow-x: hidden;
   font-size: 88%;
+  background-color: #ececec;
+  position: relative;
+}
+/* .container{
   max-width: 1200px;
   margin: 0 auto;
-  background-color: #ececec;
-}
+} */
 button,
 input {
   outline: none;
