@@ -1,5 +1,5 @@
 <template>
-   <div class="overlay">
+   <div class="overlay" @click.self="hideBox">
       <div class="box">
       <div class="body">
         <p>Success <span style="color: lightgreen">✔</span></p>
@@ -32,7 +32,7 @@ export default {
     width: 100vw;
     margin-top: -190px;
     height: 150%;
-    background-color: #8a2be28c;
+    background-color:rgba(70, 70, 70, 0.315);
     padding-top:20%;
 }
 .box {
